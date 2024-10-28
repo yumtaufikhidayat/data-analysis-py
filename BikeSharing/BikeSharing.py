@@ -163,20 +163,12 @@ def analyze_peak_hours_days(df):
 
     # Average rentals by day of the week
     weekday_avg = df.groupby('weekday')['cnt'].mean()
-    # st.bar_chart(weekday_avg)
     fig, ax = plt.subplots()
     ax.bar(weekday_avg.index, weekday_avg.values)
     ax.set_xlabel("Day of the Week")
     ax.set_ylabel("Average Rentals")
     ax.set_title("Average Bike Rentals by Day of the Week")
     st.pyplot(fig)
-
-    # Heatmap of hourly rentals across weekdays
-    st.write("Heatmap of Average Bike Rentals (Weekday vs. Hour):")
-    hourly_weekday = df.pivot_table(values='cnt', index='weekday', columns='hr', aggfunc='mean')
-    plt.figure(figsize=(14, 8))
-    sns.heatmap(hourly_weekday, cmap='YlGnBu', linewidths=0.1)
-    st.pyplot(plt)
 
 # Question 3: How is performance of bike rentals by seasons (holiday, weekday, working day)?
 def analyze_rentals_by_season(df):
