@@ -47,7 +47,7 @@ def show_statistics(df, name):
     print()
 
 
-# # 6. Clean data by converting date columns
+## 6. Clean data by converting date columns
 def clean_data(df):
     # Convert date columns from object to datetime
     if 'dteday' in df.columns:
@@ -93,8 +93,8 @@ def show_min_max(df, name):
     print("----- End -----")
     print()
 
-# 3. EDA Steps
-## 1: How Does Weather Impact Bike Rentals?
+# 3. EDA Steps & Dashboard
+## Question 1: How Does Weather Impact Bike Rentals?
 def analyze_weather_impact(df):
     # Distribution of weather-related features
     plt.figure(figsize=(12, 6))
@@ -178,7 +178,66 @@ def analyze_peak_hours_days(df):
     sns.heatmap(hourly_weekday, cmap='YlGnBu', linewidths=0.1)
     st.pyplot(plt)
 
-# Function to compare casual and registered users
+# Question 3: How is performance of bike rentals by seasons (holiday, weekday, working day)?
+def analyze_rentals_by_season(df):
+    st.subheader("Bike Rentals by Season")
+
+    # Check columns
+    required_cols = {'holiday', 'weekday', 'workingday', 'casual', 'registered'}
+    if not required_cols.issubset(df.columns):
+        st.warning("One or more required columns are not available in the selected data.")
+        return
+
+    # Group by seasonality
+    season_df = df.groupby(['holiday', 'weekday', 'workingday']).agg({
+        'casual': 'mean', 'registered': 'mean'
+    }).reset_index()
+
+    # Plot line charts for holiday, weekday, and working day
+    fig, ax = plt.subplots(1, 3, figsize=(18, 6), sharey=False)
+    sns.lineplot(data=season_df, x='holiday', y='casual', ax=ax[0], label="Casual Users", marker='o')
+    sns.lineplot(data=season_df, x='holiday', y='registered', ax=ax[0], label="Registered Users", marker='s')
+    ax[0].set_title("Bike Rentals by Holiday")
+    ax[0].legend()
+
+    sns.lineplot(data=season_df, x='weekday', y='casual', ax=ax[1], label="Casual Users", marker='o')
+    sns.lineplot(data=season_df, x='weekday', y='registered', ax=ax[1], label="Registered Users", marker='s')
+    ax[1].set_title("Bike Rentals by Weekday")
+    ax[1].legend()
+
+    sns.lineplot(data=season_df, x='workingday', y='casual', ax=ax[2], label="Casual Users", marker='o')
+    sns.lineplot(data=season_df, x='workingday', y='registered', ax=ax[2], label="Registered Users", marker='s')
+    ax[2].set_title("Bike Rentals by Working Day")
+    ax[2].legend()
+
+    st.pyplot(fig)
+
+# Question 4: How is performance of bike rentals by weather situation?
+def analyze_rentals_by_weather(df):
+    st.subheader("Bike Rentals by Weather Situation")
+
+    # Check columns
+    if 'weathersit' not in df.columns or 'casual' not in df.columns or 'registered' not in df.columns:
+        st.warning("One or more required columns are not available in the selected data.")
+        return
+
+    # Group by weather situation
+    weather_df = df.groupby('weathersit').agg({
+        'casual': 'mean', 'registered': 'mean'
+    }).reset_index()
+
+    # Plot the results
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.lineplot(data=weather_df, x='weathersit', y='casual', label="Casual Users", marker='o')
+    sns.lineplot(data=weather_df, x='weathersit', y='registered', label="Registered Users", marker='s')
+    ax.set_title("Average Bike Rentals by Weather Situation")
+    ax.set_xlabel("Weather Situation")
+    ax.set_ylabel("Average Rentals")
+    ax.legend()
+
+    st.pyplot(fig)
+
+# Compare casual and registered users
 def compare_casual_registered(df):
     st.subheader("Comparison of Casual and Registered Users")
     if 'hr' in df.columns:
@@ -192,7 +251,7 @@ def compare_casual_registered(df):
         plt.grid()
         st.pyplot(plt)
 
-# Function to analyze time-series trends
+# Analyze time-series trends
 def analyze_time_series(df):
     st.subheader("Time-Series Analysis of Bike Rentals Over Time")
     plt.figure(figsize=(14, 6))
@@ -214,7 +273,7 @@ def filter_data_by_hour(df, selected_hours):
         return df.loc[mask]
     return df
 
-# Function to display the filtered data
+# Display the filtered data
 def display_filtered_data(filtered_df, start_date, end_date, selected_hours):
     if filtered_df is not None and not filtered_df.empty:
         st.write(f"Data from {start_date} to {end_date} for hour(s): {selected_hours}")
@@ -256,7 +315,7 @@ def perform_eda(filtered_df):
     analyze_rentals_by_season(filtered_df)  # Added analysis by season
     analyze_rentals_by_weather(filtered_df)  # Added analysis by weather
 
-# Function to visualize weekly trends
+# Visualize weekly trends
 def analyze_weekly_trends(df):
     if 'weekday' not in df.columns:
         st.warning("The 'weekday' column is not available in the selected data.")
@@ -266,7 +325,7 @@ def analyze_weekly_trends(df):
     weekday_avg = df.groupby('weekday')['cnt'].mean()
     st.bar_chart(weekday_avg)
 
-# Function to visualize casual vs registered users
+# Visualize casual vs registered users
 def analyze_casual_registered_users(df):
     if 'casual' not in df.columns or 'registered' not in df.columns:
         st.warning("The 'casual' or 'registered' column is not available in the selected data.")
@@ -280,7 +339,7 @@ def analyze_casual_registered_users(df):
     plt.ylabel('Average Rental Count')
     st.pyplot(plt)
 
-# Function to analyze rentals over time
+# Analyze rentals over time
 def analyze_rentals_over_time(df):
     if 'dteday' not in df.columns:
         st.warning("The 'dteday' column is not available in the selected data.")
@@ -290,68 +349,7 @@ def analyze_rentals_over_time(df):
     daily_rentals = df.groupby('dteday')['cnt'].mean()
     st.line_chart(daily_rentals)
 
-
-# Question 3: Bike Rentals by Season (holiday, weekday, working day)
-def analyze_rentals_by_season(df):
-    st.subheader("Bike Rentals by Season")
-
-    # Check columns
-    required_cols = {'holiday', 'weekday', 'workingday', 'casual', 'registered'}
-    if not required_cols.issubset(df.columns):
-        st.warning("One or more required columns are not available in the selected data.")
-        return
-
-    # Group by seasonality
-    season_df = df.groupby(['holiday', 'weekday', 'workingday']).agg({
-        'casual': 'mean', 'registered': 'mean'
-    }).reset_index()
-
-    # Plot line charts for holiday, weekday, and working day
-    fig, ax = plt.subplots(1, 3, figsize=(18, 6), sharey=False)
-    sns.lineplot(data=season_df, x='holiday', y='casual', ax=ax[0], label="Casual Users", marker='o')
-    sns.lineplot(data=season_df, x='holiday', y='registered', ax=ax[0], label="Registered Users", marker='s')
-    ax[0].set_title("Bike Rentals by Holiday")
-    ax[0].legend()
-
-    sns.lineplot(data=season_df, x='weekday', y='casual', ax=ax[1], label="Casual Users", marker='o')
-    sns.lineplot(data=season_df, x='weekday', y='registered', ax=ax[1], label="Registered Users", marker='s')
-    ax[1].set_title("Bike Rentals by Weekday")
-    ax[1].legend()
-
-    sns.lineplot(data=season_df, x='workingday', y='casual', ax=ax[2], label="Casual Users", marker='o')
-    sns.lineplot(data=season_df, x='workingday', y='registered', ax=ax[2], label="Registered Users", marker='s')
-    ax[2].set_title("Bike Rentals by Working Day")
-    ax[2].legend()
-
-    st.pyplot(fig)
-
-
-# Question 4: Bike Rentals by Weather Situation
-def analyze_rentals_by_weather(df):
-    st.subheader("Bike Rentals by Weather Situation")
-
-    # Check columns
-    if 'weathersit' not in df.columns or 'casual' not in df.columns or 'registered' not in df.columns:
-        st.warning("One or more required columns are not available in the selected data.")
-        return
-
-    # Group by weather situation
-    weather_df = df.groupby('weathersit').agg({
-        'casual': 'mean', 'registered': 'mean'
-    }).reset_index()
-
-    # Plot the results
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.lineplot(data=weather_df, x='weathersit', y='casual', label="Casual Users", marker='o')
-    sns.lineplot(data=weather_df, x='weathersit', y='registered', label="Registered Users", marker='s')
-    ax.set_title("Average Bike Rentals by Weather Situation")
-    ax.set_xlabel("Weather Situation")
-    ax.set_ylabel("Average Rentals")
-    ax.legend()
-
-    st.pyplot(fig)
-
-# Main function to run the Streamlit dashboard
+# Run the Streamlit dashboard
 def main():
     # Load data
     hour_df = pd.read_csv("hour.csv", parse_dates=['dteday'])
