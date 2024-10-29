@@ -170,7 +170,7 @@ def analyze_peak_hours_days(df):
     ax.set_title("Average Bike Rentals by Day of the Week")
     st.pyplot(fig)
 
-# Question 3: How is performance of bike rentals by seasons (holiday, weekday, working day)?
+# Question 3: How is performance of bike rentals by seasons (holiday, weekday, working day) compare to casual users vs registered users?
 def analyze_rentals_by_season(df):
     st.subheader("Bike Rentals by Season")
 
@@ -204,7 +204,7 @@ def analyze_rentals_by_season(df):
 
     st.pyplot(fig)
 
-# Question 4: How is performance of bike rentals by weather situation?
+# Question 4: How is performance of bike rentals by weather situation compare to casual users vs registered users?
 def analyze_rentals_by_weather(df):
     st.subheader("Bike Rentals by Weather Situation")
 
