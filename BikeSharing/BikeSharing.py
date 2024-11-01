@@ -96,6 +96,9 @@ def show_min_max(df, name):
 # 3. EDA Steps & Dashboard
 ## Question 1: How Does Weather Impact Bike Rentals?
 def analyze_weather_impact(df):
+    all_df = pd.merge(
+
+    )
     # Distribution of weather-related features
     plt.figure(figsize=(12, 6))
     sns.histplot(df['weathersit'], bins=4, kde=False)
@@ -109,13 +112,6 @@ def analyze_weather_impact(df):
     avg_rentals_weather.plot(kind='bar', color='skyblue', title='Average Rentals by Weather Situation')
     plt.xlabel('Weather Situation')
     plt.ylabel('Average Rental Count')
-    plt.show()
-
-    # Correlation matrix
-    plt.figure(figsize=(10, 8))
-    corr_matrix = df[['temp', 'atemp', 'hum', 'windspeed', 'cnt']].corr()
-    sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
-    plt.title('Correlation Matrix')
     plt.show()
 
     # Scatter plots for temperature, humidity, and windspeed
