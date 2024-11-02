@@ -3,4 +3,4 @@ Repository to complete Belajar Analisis Data dengan Python class from Dicoding. 
 back has become automatic. Through these systems, user is able to easily rent a bike from a particular position and return 
 back at another position. Currently, there are about over 500 bike-sharing programs around the world which is composed of 
 over 500 thousands bicycles. Today, there exists great interest in these systems due to their important role in traffic, 
-environmental and health issues. Read more about dataset [https://www.kaggle.com/datasets/lakshmi25npathi/bike-sharing-dataset/data](here)
+environmental and health issues. Read more about dataset [here](https://www.kaggle.com/datasets/lakshmi25npathi/bike-sharing-dataset/data).
