@@ -11,7 +11,7 @@ environmental and health issues. Read more about dataset [here](https://www.kagg
 ## Setup Environment - pipenv
 ```
     mkdir proyek_analisis_data
-    proyek_analisis_data
+    cd proyek_analisis_data
     pipenv install
     pipenv shell
     pip install streamlit pandas plotly
