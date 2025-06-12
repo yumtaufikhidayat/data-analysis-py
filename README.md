@@ -4,3 +4,18 @@ back has become automatic. Through these systems, user is able to easily rent a 
 back at another position. Currently, there are about over 500 bike-sharing programs around the world which is composed of 
 over 500 thousands bicycles. Today, there exists great interest in these systems due to their important role in traffic, 
 environmental and health issues. Read more about dataset [here](https://www.kaggle.com/datasets/lakshmi25npathi/bike-sharing-dataset/data).
+
+## Setup Environment - pipenv
+```
+    mkdir proyek_analisis_data
+    proyek_analisis_data
+    pipenv install
+    pipenv shell
+    pip install streamlit pandas plotly
+    pip install -r requirements.txt
+```
+
+## Run streamlit app
+```
+    streamlit run dashboard.py
+```
