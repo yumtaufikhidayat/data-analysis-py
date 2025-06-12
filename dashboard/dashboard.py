@@ -6,6 +6,8 @@ import plotly.express as px
 
 st.set_page_config(layout="wide")
 
+
+
 # Load merged data
 @st.cache_data
 def load_data():
@@ -35,7 +37,8 @@ def load_data():
 
     return merged_df
 
-df = load_data()
+if __name__ == '__main__':
+    df = load_data()
 
 # Sidebar
 st.sidebar.image("https://thumbs.dreamstime.com/b/public-city-bicycle-sharing-business-vector-flat-illustration-man-woman-pay-bike-rent-modern-automated-bike-rental-service-169415132.jpg")
