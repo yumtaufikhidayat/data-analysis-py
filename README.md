@@ -12,7 +12,8 @@ environmental and health issues. Read more about dataset [here](https://www.kagg
     pipenv install
     pipenv shell
     pip install streamlit pandas plotly
-    pip install -r requirements.txt
+    pip install pipreqs
+    pipreqs . --force
 ```
 
 ## Run streamlit app
