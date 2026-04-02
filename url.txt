@@ -1,1 +1,1 @@
-URL deployment: https://data-analysis-py.streamlit.app/
+URL deployment Streamlit app: https://data-analysis-py.streamlit.app/
